@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@ant-design/pro-components": "^2.4.4",
+    "@ant-design/pro-components": "^2.7.16",
     "@semantic-release/npm": "^12.0.1",
     "@umijs/max": "^4.4.0",
     "antd": "^5.24.0",

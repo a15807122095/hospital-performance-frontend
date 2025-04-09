@@ -8,12 +8,10 @@ export default defineConfig({
   initialState: {},
   request: { dataField: '' },
   layout: {
-    title: '@umijs/max',
+    locale: false,
+    title: '',
   },
-  locale: {
-    default: 'zh-CN',
-    antd: true,
-  },
+  locale: false,
   clientLoader: {},
   esbuildMinifyIIFE: true,
   mock: false,
@@ -27,6 +25,6 @@ export default defineConfig({
     autoInstall: {},
   },
   routes,
-  npmClient: 'pnpm',
+  npmClient: 'yarn',
   tailwindcss: {},
 });

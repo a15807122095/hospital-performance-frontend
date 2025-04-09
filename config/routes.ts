@@ -40,17 +40,17 @@ const routes: IRouteType = [
   {
     name: '首页',
     path: '/home',
-    component: './Home',
+    component: '@/pages/Home',
   },
   {
-    name: '权限演示',
-    path: '/access',
-    component: './Access',
+    name: '登录',
+    path: '/login',
+    component: '@/pages/Login',
+    layout: false,
   },
   {
-    name: ' CRUD 示例',
-    path: '/table',
-    component: './Table',
+    path: '*',
+    component: '@/pages/404',
   },
 ];
 
