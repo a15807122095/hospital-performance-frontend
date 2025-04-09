@@ -1,9 +1,9 @@
 {
-  "name": "umi-project-init",
+  "name": "performance-management",
   "version": "0.0.0",
   "private": true,
-  "description": "umi 项目初始化配置",
-  "author": "huanght",
+  "description": "医院绩效系统",
+  "author": "ht",
   "scripts": {
     "build": "max build",
     "deploy": "npx semantic-release --no-ci",
@@ -24,8 +24,8 @@
     "@ant-design/icons": "^5.0.1",
     "@ant-design/pro-components": "^2.4.4",
     "@semantic-release/npm": "^12.0.1",
-    "@umijs/max": "^4.3.11",
-    "antd": "^5.4.0",
+    "@umijs/max": "^4.4.0",
+    "antd": "^5.24.0",
     "query-string": "^9.1.0"
   },
   "devDependencies": {
