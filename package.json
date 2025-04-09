@@ -6,7 +6,7 @@
   "author": "ht",
   "scripts": {
     "build": "max build",
-    "deploy": "npx semantic-release --no-ci",
+    "deploy": "npx semantic-release",
     "dev": "max dev",
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
