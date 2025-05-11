@@ -10,6 +10,7 @@
     "dev": "max dev",
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
+    "openapi": "max openapi",
     "prepare": "husky",
     "setup": "max setup",
     "start": "npm run dev"
@@ -26,6 +27,7 @@
     "@semantic-release/npm": "^12.0.1",
     "@umijs/max": "^4.4.0",
     "antd": "^5.24.0",
+    "lodash": "^4.17.21",
     "query-string": "^9.1.0"
   },
   "devDependencies": {
@@ -33,8 +35,10 @@
     "@semantic-release/commit-analyzer": "^13.0.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/release-notes-generator": "^14.0.1",
+    "@types/lodash": "^4.17.16",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
+    "@umijs/max-plugin-openapi": "^2.0.3",
     "husky": "^9",
     "less": "^4.2.0",
     "lint-staged": "^13.2.0",

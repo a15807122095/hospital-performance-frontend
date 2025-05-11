@@ -6,7 +6,7 @@ export default defineConfig({
   access: {},
   model: {},
   initialState: {},
-  request: { dataField: '' },
+  request: {},
   layout: {
     locale: false,
     title: '',
@@ -27,4 +27,12 @@ export default defineConfig({
   routes,
   npmClient: 'yarn',
   tailwindcss: {},
+  plugins: ['@umijs/max-plugin-openapi'],
+  openAPI: [
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://127.0.0.1:4523/export/openapi/19?version=3.0',
+      projectName: 'openapi',
+    },
+  ],
 });

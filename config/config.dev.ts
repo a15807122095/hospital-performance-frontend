@@ -7,5 +7,13 @@ export default defineConfig({
     editor: 'vscode',
   },
   devtool: 'source-map',
-  proxy: {},
+  proxy: {
+    '/api': {
+      target: 'http://121.40.244.192:8081',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': '',
+      },
+    },
+  },
 });

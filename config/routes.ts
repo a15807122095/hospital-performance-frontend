@@ -34,13 +34,21 @@ export type IRouteType = IConfigFromPlugins['routes'] | Partial<ILayoutRoute>[];
 
 const routes: IRouteType = [
   {
+    name: '首页',
     path: '/',
-    redirect: '/home',
+    component: '@/pages/Home',
   },
   {
-    name: '首页',
-    path: '/home',
-    component: '@/pages/Home',
+    name: '基础设置',
+    path: '/base-setting',
+    icon: 'SettingOutlined',
+    routes: [
+      {
+        name: '核算单元字典表',
+        path: '/base-setting/account-unit',
+        component: '@/pages/baseSetting/AccountUnit',
+      },
+    ],
   },
   {
     name: '登录',
