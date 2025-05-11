@@ -19,3 +19,10 @@ export function deleteAccountDictionary(id: React.Key) {
     method: 'DELETE',
   });
 }
+
+export function postAccountDictionary(data: any) {
+  return request('/base_config/account_dictionary/', {
+    method: 'POST',
+    data,
+  });
+}
