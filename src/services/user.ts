@@ -18,3 +18,7 @@ export function accountsLogin(params: { user_name: string; password: string }) {
     skipAddToken: true,
   });
 }
+
+export function getUserInfo() {
+  return request('/users/api/me/');
+}

@@ -1,8 +1,11 @@
 import { RunTimeLayoutConfig, useModel } from '@umijs/max';
+import { get } from 'lodash';
 
 const Layout: RunTimeLayoutConfig = () => {
-  const { loading } = useModel('@@initialState');
-
+  const { loading, initialState } = useModel('@@initialState');
+  const waterMark =
+    get(initialState, 'userInfo.user_name', '') +
+    (get(initialState, 'userInfo.phone', '')?.slice(-4) || '');
   return {
     title: false,
     layout: 'mix',
@@ -14,7 +17,7 @@ const Layout: RunTimeLayoutConfig = () => {
     loading,
     logout: () => {},
     waterMarkProps: {
-      content: 'test',
+      content: waterMark,
       gapX: 200,
       gapY: 120,
     },

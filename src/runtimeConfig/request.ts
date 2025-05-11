@@ -127,7 +127,11 @@ const request: RuntimeConfig['request'] = {
   responseInterceptors: [
     [
       (res) => {
-        const resMessage = get(res, 'data.message', null);
+        const resMessage = get(
+          res,
+          'data.message',
+          get(res, 'data.detail', null),
+        );
         const success = get(res, 'data.success', false);
         if (!success && resMessage) {
           message.error({ content: resMessage });
