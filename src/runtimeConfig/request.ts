@@ -109,7 +109,8 @@ const errResponseInterceptors = (res: any) => {
     history.replace('/login');
     return Promise.reject(res);
   }
-  const resMessage = get(response, 'data.data.message', 'some error');
+  console.log(response);
+  const resMessage = get(response, 'data.message', 'some error');
   message.error({ content: resMessage });
   return Promise.reject(res);
 };
