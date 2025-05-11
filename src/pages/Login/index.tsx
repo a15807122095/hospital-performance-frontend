@@ -1,3 +1,5 @@
+import { accountsLogin } from '@/services/user';
+import { isAuthenticated, setAuthority } from '@/utils/tokenUtils';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
@@ -5,22 +7,45 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { theme } from 'antd';
+import { history, useRequest } from '@umijs/max';
+import { message, theme } from 'antd';
 
 export default () => {
   const { token } = theme.useToken();
+  const { run, loading } = useRequest(accountsLogin, {
+    manual: true,
+    onSuccess(data) {
+      if (data.access && data.refresh) {
+        setAuthority(data);
+        history.replace('/');
+      } else {
+        message.error({ content: '登录失败，请检查用户名和密码。' });
+      }
+    },
+  });
   const onFinish = (values: any) => {
-    console.log(values);
+    run(values);
   };
+
+  if (isAuthenticated()) {
+    history.replace('/');
+    return null;
+  }
+
   return (
     <ProConfigProvider hashed={false}>
       <div
         style={{ backgroundColor: token.colorBgContainer }}
         className="pt-[15vh]"
       >
-        <LoginForm title="xxx" subTitle="xxxx" onFinish={onFinish}>
+        <LoginForm
+          title="xxx"
+          subTitle="xxxx"
+          onFinish={onFinish}
+          loading={loading}
+        >
           <ProFormText
-            name="username"
+            name="user_name"
             fieldProps={{
               size: 'large',
               prefix: <UserOutlined />,
