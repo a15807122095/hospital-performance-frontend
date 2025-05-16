@@ -5,7 +5,7 @@ import queryString from 'query-string';
 
 import type { RequestOptions } from '@@/plugin-request/request';
 
-import { accountsRefresh } from '../services/user';
+import { postUsersApiTokenRefresh } from '@/services/openapi/dengluxiangguan';
 import {
   clearAuthority,
   isAccessTokenExpired,
@@ -28,7 +28,7 @@ const notifySubscriber = () => {
 // 刷新 token 请求
 const refreshTokenRequest = async (refreshToken: string) => {
   try {
-    const { data, status } = await accountsRefresh({
+    const { data, status } = await postUsersApiTokenRefresh({
       refresh: refreshToken,
     }); // 发起请求刷新token，并将请求的Promise保存
     // 请求完成

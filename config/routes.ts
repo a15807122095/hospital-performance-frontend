@@ -48,6 +48,11 @@ const routes: IRouteType = [
         path: '/base-setting/account-unit',
         component: '@/pages/baseSetting/AccountUnit',
       },
+      {
+        name: '职系字典表',
+        path: '/base-setting/position',
+        component: '@/pages/baseSetting/Position',
+      },
     ],
   },
   {

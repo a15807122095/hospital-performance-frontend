@@ -1,44 +1,32 @@
 import {
-  deleteBaseConfigAccountDictionaryId,
-  getBaseConfigAccountDictionary,
-  postBaseConfigAccountDictionary,
-  putBaseConfigAccountDictionaryId,
-} from '@/services/openapi/hesuandanyuanzidianbiao';
-import { getBaseConfigPositionSystem } from '@/services/openapi/zhixibiao';
+  deleteBaseConfigPositionSystemId,
+  getBaseConfigPositionSystem,
+  postBaseConfigPositionSystem,
+  putBaseConfigPositionSystemId,
+} from '@/services/openapi/zhixibiao';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ProSchemaValueEnumMap,
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { useRequest } from '@umijs/max';
-import { Button, message, Space } from 'antd';
+import { Button, message } from 'antd';
 import { get, omit } from 'lodash';
 import { useRef } from 'react';
 
 type DateType = Awaited<
-  ReturnType<typeof getBaseConfigAccountDictionary>
+  ReturnType<typeof getBaseConfigPositionSystem>
 >['data']['result'][number];
 
 type TableProps = ProTableProps<
   DateType,
-  API.getBaseConfigAccountDictionaryParams
+  API.getBaseConfigPositionSystemParams
 >;
 
-const AccountUnit = () => {
+const Position = () => {
   const actionRef = useRef<ActionType>(null);
-  const { loading: positionSystemLoading, data: positionSystemList } =
-    useRequest(getBaseConfigPositionSystem, {
-      defaultParams: [
-        {
-          page: 1,
-          page_size: 500,
-        },
-      ],
-    });
   const tabRequest: TableProps['request'] = async (params) => {
-    const { data, ...other } = await getBaseConfigAccountDictionary({
+    const { data, ...other } = await getBaseConfigPositionSystem({
       page: get(params, 'current', 1),
       page_size: get(params, 'pageSize', 10),
       ...omit(params, ['current', 'pageSize']),
@@ -55,57 +43,7 @@ const AccountUnit = () => {
       title: '关键字',
       dataIndex: 'keyword',
       hideInTable: true,
-    },
-    {
-      title: '科室代码',
-      dataIndex: 'department_code',
-      hideInSearch: true,
-    },
-    {
-      title: '科室名称',
-      dataIndex: 'department_name',
-      hideInSearch: true,
-    },
-    {
-      title: '拼音',
-      dataIndex: 'pingying_code',
-      hideInSearch: true,
-    },
-    {
-      title: '院区',
-      dataIndex: 'campus',
-      hideInSearch: true,
-    },
-    {
-      title: '类别',
-      dataIndex: 'position',
-      valueType: 'select',
-      fieldProps: {
-        loading: positionSystemLoading,
-      },
-      valueEnum: () => {
-        const result: ProSchemaValueEnumMap = new Map();
-        const data = get(positionSystemList, 'result', []);
-        data.forEach((item) => {
-          result.set(item.id, {
-            text: item.position_designation,
-          });
-        });
-        return result;
-      },
-    },
-    {
-      title: '上级科室',
-      dataIndex: 'superior_department',
-      search: false,
-      hideInSearch: true,
-    },
-    {
-      title: '更新时间',
-      key: 'show modified_time',
-      dataIndex: 'modified_time',
       editable: false,
-      hideInSearch: true,
     },
     {
       title: '更新时间',
@@ -123,23 +61,48 @@ const AccountUnit = () => {
       },
     },
     {
+      title: '职系代码',
+      dataIndex: 'position_code',
+      hideInSearch: true,
+    },
+    {
+      title: '职系名称',
+      dataIndex: 'position_name',
+      hideInSearch: true,
+    },
+    {
+      title: '职系标示',
+      dataIndex: 'position_designation',
+      hideInSearch: true,
+    },
+    {
+      title: '更新人',
+      dataIndex: ['modified_by', 'user_name'],
+      hideInSearch: true,
+      editable: false,
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'modified_time',
+      hideInSearch: true,
+      editable: false,
+    },
+    {
       title: '操作',
       dataIndex: 'operate',
       valueType: 'option',
       align: 'center',
       render: (text, record, _, action) => (
-        <Space>
-          <Button
-            variant="text"
-            color="cyan"
-            key="editable"
-            onClick={() => {
-              action?.startEditable?.(record.id);
-            }}
-          >
-            编辑
-          </Button>
-        </Space>
+        <Button
+          variant="text"
+          color="cyan"
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </Button>
       ),
     },
   ];
@@ -164,11 +127,11 @@ const AccountUnit = () => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
       if (newLineConfig) {
         const postData = omit(data, omitKeys);
-        await postBaseConfigAccountDictionary(postData);
+        await postBaseConfigPositionSystem(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
-        await putBaseConfigAccountDictionaryId(
+        await putBaseConfigPositionSystemId(
           { id: rowKey as string },
           omit(data, omitKeys),
         );
@@ -180,11 +143,10 @@ const AccountUnit = () => {
       if (flag === 'create') {
         return;
       }
-      await deleteBaseConfigAccountDictionaryId({ id: rowKey as string });
+      await deleteBaseConfigPositionSystemId({ id: rowKey as string });
       message.success({ content: '删除成功!' });
     },
   };
-
   return (
     <ProTable
       actionRef={actionRef}
@@ -221,4 +183,4 @@ const AccountUnit = () => {
   );
 };
 
-export default AccountUnit;
+export default Position;

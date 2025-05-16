@@ -31,7 +31,7 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://127.0.0.1:4523/export/openapi/19?version=3.0',
+      schemaPath: process.env.OPEN_API,
       projectName: 'openapi',
     },
   ],

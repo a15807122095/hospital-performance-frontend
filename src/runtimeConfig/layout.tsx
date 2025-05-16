@@ -1,8 +1,10 @@
-import { RunTimeLayoutConfig, useModel } from '@umijs/max';
+import { postUsersApiLogout } from '@/services/openapi/dengluxiangguan';
+import { clearAuthority } from '@/utils/tokenUtils';
+import { history, RunTimeLayoutConfig, useModel } from '@umijs/max';
 import { get } from 'lodash';
 
 const Layout: RunTimeLayoutConfig = () => {
-  const { loading, initialState } = useModel('@@initialState');
+  const { loading, initialState, setInitialState } = useModel('@@initialState');
   const waterMark =
     get(initialState, 'userInfo.user_name', '') +
     (get(initialState, 'userInfo.phone', '')?.slice(-4) || '');
@@ -15,7 +17,17 @@ const Layout: RunTimeLayoutConfig = () => {
     },
     logo: false,
     loading,
-    logout: () => {},
+    logout: () => {
+      postUsersApiLogout({
+        refresh_token: localStorage.getItem('REFRESH_TOKEN') || '',
+      });
+      clearAuthority();
+      setInitialState({
+        ...initialState,
+        userInfo: null,
+      });
+      history.replace('/login');
+    },
     waterMarkProps: {
       content: waterMark,
       gapX: 200,

@@ -1,4 +1,4 @@
-import { accountsLogin } from '@/services/user';
+import { postUsersApiToken } from '@/services/openapi/dengluxiangguan';
 import { isAuthenticated, setAuthority } from '@/utils/tokenUtils';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
@@ -12,7 +12,7 @@ import { message, theme } from 'antd';
 
 export default () => {
   const { token } = theme.useToken();
-  const { run, loading } = useRequest(accountsLogin, {
+  const { run, loading } = useRequest(postUsersApiToken, {
     manual: true,
     onSuccess(data) {
       if (data.access && data.refresh) {

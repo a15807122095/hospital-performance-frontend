@@ -1,4 +1,4 @@
-import { getUserInfo } from '@/services/user';
+import { getUsersApiMe } from '@/services/openapi/dengluxiangguan';
 import { isAuthenticated } from '@/utils/tokenUtils';
 import { UserOutlined } from '@ant-design/icons';
 import React from 'react';
@@ -10,7 +10,7 @@ export interface InitialStateType {
 export default async function getInitialState(): Promise<InitialStateType> {
   let userInfo = null;
   if (isAuthenticated()) {
-    const { success, data } = await getUserInfo();
+    const { success, data } = await getUsersApiMe();
     if (success) {
       userInfo = data;
     }
