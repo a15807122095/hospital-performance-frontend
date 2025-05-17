@@ -7,6 +7,10 @@ declare namespace API {
     id: string;
   };
 
+  type deleteBaseConfigChargeCategoryIdParams = {
+    id: string;
+  };
+
   type deleteBaseConfigManuallyRecordIdParams = {
     id: string;
   };
@@ -23,7 +27,7 @@ declare namespace API {
     /** 关键字搜索：科室代码，科室名称，拼音码，院区标识 */
     keyword?: string;
     /** 外键关联职系表职系名称 */
-    position?: string;
+    position?: number;
     /** 查询修改起始时间 */
     modified_time_after?: string;
     /** 查询修改结束时间 */
@@ -55,6 +59,23 @@ declare namespace API {
     page_size?: string;
   };
 
+  type getBaseConfigChargeCategoryIdParams = {
+    id: string;
+  };
+
+  type getBaseConfigChargeCategoryParams = {
+    /** 关键字搜索 */
+    keyword?: string;
+    /** 查询修改起始时间 */
+    modified_time_after?: string;
+    /** 查询修改结束时间 */
+    modified_time_before?: string;
+    /** 页码 */
+    page?: string;
+    /** 每页数量 */
+    page_size?: string;
+  };
+
   type getBaseConfigManuallyRecordIdParams = {
     id: string;
   };
@@ -62,6 +83,8 @@ declare namespace API {
   type getBaseConfigManuallyRecordParams = {
     /** 关键字搜索 */
     keyword?: string;
+    /** 外键关联职系表主键 */
+    position?: string;
     /** 查询修改起始时间 */
     modified_time_after?: string;
     /** 查询修改结束时间 */
@@ -104,6 +127,21 @@ declare namespace API {
     page_size?: string;
   };
 
+  type postBaseConfigChargeCategoryParams = {
+    /** 关键字搜索：科室代码，科室名称，拼音码，院区标识 */
+    keyword?: string;
+    /** 枚举：doctor(医师)，technician(技师)，nurse(护理)，admin(行政) */
+    category_designation?: string;
+    /** 查询修改起始时间 */
+    modified_time_after?: string;
+    /** 查询修改结束时间 */
+    modified_time_before?: string;
+    /** 页码 */
+    page?: string;
+    /** 每页数量 */
+    page_size?: string;
+  };
+
   type postBaseConfigManuallyRecordParams = {
     /** 关键字搜索：科室代码，科室名称，拼音码，院区标识 */
     keyword?: string;
@@ -124,6 +162,10 @@ declare namespace API {
   };
 
   type putBaseConfigAccountInformationIdParams = {
+    id: string;
+  };
+
+  type putBaseConfigChargeCategoryIdParams = {
     id: string;
   };
 
