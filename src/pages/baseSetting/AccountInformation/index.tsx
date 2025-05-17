@@ -12,10 +12,10 @@ import {
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { useRequest } from '@umijs/max';
-import { Button, message } from 'antd';
+import { useRequest, useSearchParams } from '@umijs/max';
+import { Button, FormInstance, message } from 'antd';
 import { get, omit } from 'lodash';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type DateType = Awaited<
   ReturnType<typeof getBaseConfigAccountInformation>
@@ -28,6 +28,8 @@ type TableProps = ProTableProps<
 
 const AccountInformation = () => {
   const actionRef = useRef<ActionType>(null);
+  const formRef = useRef<FormInstance>();
+  const [searchParams] = useSearchParams();
   const { data: positionSystemList } = useRequest(getBaseConfigPositionSystem, {
     defaultParams: [
       {
@@ -63,9 +65,6 @@ const AccountInformation = () => {
       valueType: 'digitRange',
       editable: false,
       hideInTable: true,
-      fieldProps: {
-        allowClear: true,
-      },
       search: {
         transform: (value) => {
           return {
@@ -254,6 +253,20 @@ const AccountInformation = () => {
       message.success({ content: '删除成功!' });
     },
   };
+
+  useEffect(() => {
+    formRef.current?.setFieldsValue({
+      attendance_days: [
+        searchParams.get('attendance_days_min'),
+        searchParams.get('attendance_days_max'),
+      ],
+      modified_time: [
+        searchParams.get('modified_time_after'),
+        searchParams.get('modified_time_before'),
+      ],
+      keyword: searchParams.get('keyword'),
+    });
+  }, []);
   return (
     <ProTable
       actionRef={actionRef}
@@ -262,6 +275,31 @@ const AccountInformation = () => {
         defaultValue: {
           option: { fixed: 'right', disable: true },
         },
+      }}
+      formRef={formRef}
+      form={{
+        initialValues: {
+          keyword: null,
+          attendance_days: [null, null],
+          modified_time: [null, null],
+        },
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              attendance_days: [
+                values.attendance_days_min,
+                values.attendance_days_max,
+              ],
+              modified_time: [
+                values.modified_time_after,
+                values.modified_time_before,
+              ],
+            };
+          }
+          return values;
+        },
+        syncToUrlAsImportant: true,
       }}
       columns={columns}
       rowKey="id"

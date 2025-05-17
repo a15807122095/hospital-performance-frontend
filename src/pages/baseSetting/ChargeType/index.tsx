@@ -10,7 +10,7 @@ import {
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { Button, message } from 'antd';
+import { Button, FormInstance, message } from 'antd';
 import { get, omit } from 'lodash';
 import { useRef } from 'react';
 
@@ -25,6 +25,7 @@ type TableProps = ProTableProps<
 
 const ChargeType = () => {
   const actionRef = useRef<ActionType>(null);
+  const formRef = useRef<FormInstance>();
   const tabRequest: TableProps['request'] = async (params) => {
     const { data, ...other } = await getBaseConfigChargeCategory({
       page: get(params, 'current', 1),
@@ -155,12 +156,32 @@ const ChargeType = () => {
   return (
     <ProTable
       actionRef={actionRef}
+      formRef={formRef}
       request={tabRequest}
       options={{
         setting: false,
       }}
       columns={columns}
       rowKey="id"
+      form={{
+        initialValues: {
+          keyword: null,
+          modified_time: [null, null],
+        },
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              modified_time: [
+                values.modified_time_after,
+                values.modified_time_before,
+              ],
+            };
+          }
+          return values;
+        },
+        syncToUrlAsImportant: true,
+      }}
       editable={editable}
       toolbar={{
         actions: [

@@ -1,21 +1,20 @@
+import positionLoader from '@/clientLoader/positionLoader';
 import {
   deleteBaseConfigAccountDictionaryId,
   getBaseConfigAccountDictionary,
   postBaseConfigAccountDictionary,
   putBaseConfigAccountDictionaryId,
 } from '@/services/openapi/hesuandanyuanzidianbiao';
-import { getBaseConfigPositionSystem } from '@/services/openapi/zhixibiao';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ProSchemaValueEnumMap,
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { useRequest } from '@umijs/max';
-import { Button, message, Space } from 'antd';
+import { useClientLoaderData, useSearchParams } from '@umijs/max';
+import { Button, FormInstance, message, Space } from 'antd';
 import { get, omit } from 'lodash';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type DateType = Awaited<
   ReturnType<typeof getBaseConfigAccountDictionary>
@@ -27,16 +26,11 @@ type TableProps = ProTableProps<
 >;
 
 const AccountUnit = () => {
+  const { data } = useClientLoaderData();
+
   const actionRef = useRef<ActionType>(null);
-  const { loading: positionSystemLoading, data: positionSystemList } =
-    useRequest(getBaseConfigPositionSystem, {
-      defaultParams: [
-        {
-          page: 1,
-          page_size: 500,
-        },
-      ],
-    });
+  const formRef = useRef<FormInstance>();
+  const [searchParams] = useSearchParams();
   const tabRequest: TableProps['request'] = async (params) => {
     const { data, ...other } = await getBaseConfigAccountDictionary({
       page: get(params, 'current', 1),
@@ -81,18 +75,9 @@ const AccountUnit = () => {
       dataIndex: 'position',
       valueType: 'select',
       fieldProps: {
-        loading: positionSystemLoading,
+        options: get(data, 'options', []),
       },
-      valueEnum: () => {
-        const result: ProSchemaValueEnumMap = new Map();
-        const data = get(positionSystemList, 'result', []);
-        data.forEach((item) => {
-          result.set(item.id, {
-            text: item.position_designation,
-          });
-        });
-        return result;
-      },
+      valueEnum: get(data, 'valueEnum', new Map()),
     },
     {
       title: '上级科室',
@@ -185,12 +170,44 @@ const AccountUnit = () => {
     },
   };
 
+  useEffect(() => {
+    const position = searchParams.get('position');
+    formRef.current?.setFieldsValue({
+      keyword: searchParams.get('keyword'),
+      position: position ? Number(position) : undefined,
+      modified_time: [
+        searchParams.get('modified_time_after'),
+        searchParams.get('modified_time_before'),
+      ],
+    });
+  }, []);
   return (
     <ProTable
       actionRef={actionRef}
+      formRef={formRef}
       request={tabRequest}
       options={{
         setting: false,
+      }}
+      form={{
+        initialValues: {
+          keyword: null,
+          position: null,
+          modified_time: [null, null],
+        },
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              modified_time: [
+                values.modified_time_after,
+                values.modified_time_before,
+              ],
+            };
+          }
+          return values;
+        },
+        syncToUrlAsImportant: true,
       }}
       columns={columns}
       rowKey="id"
@@ -222,3 +239,5 @@ const AccountUnit = () => {
 };
 
 export default AccountUnit;
+
+export const clientLoader = positionLoader;

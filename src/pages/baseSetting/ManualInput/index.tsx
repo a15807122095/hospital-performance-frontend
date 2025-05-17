@@ -10,9 +10,10 @@ import {
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { Button, message } from 'antd';
+import { useSearchParams } from '@umijs/max';
+import { Button, FormInstance, message } from 'antd';
 import { get, omit } from 'lodash';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type DateType = Awaited<
   ReturnType<typeof getBaseConfigManuallyRecord>
@@ -25,6 +26,8 @@ type TableProps = ProTableProps<
 
 const ManualInput = () => {
   const actionRef = useRef<ActionType>(null);
+  const formRef = useRef<FormInstance>();
+  const [searchParams] = useSearchParams();
   const tabRequest: TableProps['request'] = async (params) => {
     const { data, ...other } = await getBaseConfigManuallyRecord({
       page: get(params, 'current', 1),
@@ -179,12 +182,48 @@ const ManualInput = () => {
       message.success({ content: '删除成功!' });
     },
   };
+
+  useEffect(() => {
+    formRef.current?.setFieldsValue({
+      parameter_range: [
+        searchParams.get('parameter_min'),
+        searchParams.get('parameter_max'),
+      ],
+      modified_time: [
+        searchParams.get('modified_time_after'),
+        searchParams.get('modified_time_before'),
+      ],
+      keyword: searchParams.get('keyword'),
+    });
+  }, []);
   return (
     <ProTable
       actionRef={actionRef}
+      formRef={formRef}
       request={tabRequest}
       options={{
         setting: false,
+      }}
+      form={{
+        initialValues: {
+          keyword: null,
+          modified_time: [null, null],
+          parameter_range: [null, null],
+        },
+        syncToUrl: (values, type) => {
+          if (type === 'get') {
+            return {
+              ...values,
+              parameter_range: [values.parameter_min, values.parameter_max],
+              modified_time: [
+                values.modified_time_after,
+                values.modified_time_before,
+              ],
+            };
+          }
+          return values;
+        },
+        syncToUrlAsImportant: true,
       }}
       columns={columns}
       rowKey="id"
