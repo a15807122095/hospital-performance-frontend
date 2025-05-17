@@ -58,6 +58,11 @@ const routes: IRouteType = [
         path: '/base-setting/account-information',
         component: '@/pages/baseSetting/AccountInformation',
       },
+      {
+        name: '人工输入信息',
+        path: '/base-setting/manual-input',
+        component: '@/pages/baseSetting/ManualInput',
+      },
     ],
   },
   {

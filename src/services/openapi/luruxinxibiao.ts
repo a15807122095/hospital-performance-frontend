@@ -9,41 +9,21 @@ export async function getBaseConfigManuallyRecord(
   options?: { [key: string]: any },
 ) {
   return request<{
-    total: number;
-    page_size: number;
-    page: number;
-    result: {
-      id: number;
-      department_code: string;
-      department_name: string;
-      pingying_code: string;
-      campus: string;
-      category_designation: string;
-      superior_department: string;
-    }[];
+    success: boolean;
     message: string;
     data: {
       total: number;
       page_size: number;
       page: number;
       result: {
-        staff_code: number;
-        staff_name: string;
-        department_code: string;
-        department_name: string;
-        group_code: string;
-        group_name: string;
-        post: string;
-        staff_nature: string;
-        attendance_days: number;
-        coefficient: string;
-        bonus_category: string;
-        position: string;
-        job_title: string;
-        work_number: string;
+        id: number;
+        parameter_name: string;
+        pingying_code: string;
+        parameter: number;
+        adjuest: number;
+        record_method: string;
         modified_by: { id: number; user_name: string };
         modified_time: string;
-        reason?: string;
       }[];
     };
   }>('/base_config/manually_record/', {
@@ -57,8 +37,6 @@ export async function getBaseConfigManuallyRecord(
 
 /** 新增录入信息 新增人员信息 POST /base_config/manually_record/ */
 export async function postBaseConfigManuallyRecord(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.postBaseConfigManuallyRecordParams,
   body: {
     /** 参数名称 */
     parameter_name?: string;
@@ -67,7 +45,7 @@ export async function postBaseConfigManuallyRecord(
     /** 参数值 */
     parameter?: number;
     /** 调整值 */
-    adjuest?: string;
+    adjuest?: number;
     /** 录入方式， 固定枚举： {'manual': 手动， 'auto': 自动} */
     record_method?: string;
   },
@@ -106,9 +84,6 @@ export async function postBaseConfigManuallyRecord(
     }[];
   }>('/base_config/manually_record/', {
     method: 'POST',
-    params: {
-      ...params,
-    },
     data: formData,
     requestType: 'form',
     ...(options || {}),
@@ -162,7 +137,7 @@ export async function putBaseConfigManuallyRecordId(
     /** 参数值 */
     parameter?: number;
     /** 调整值 */
-    adjuest?: string;
+    adjuest?: number;
     /** 录入方式， 固定枚举： {'manual': 手动， 'auto': 自动} */
     record_method?: string;
   },
