@@ -63,6 +63,11 @@ const routes: IRouteType = [
         path: '/base-setting/manual-input',
         component: '@/pages/baseSetting/ManualInput',
       },
+      {
+        name: '收费类别',
+        path: '/base-setting/charge-type',
+        component: '@/pages/baseSetting/ChargeType',
+      },
     ],
   },
   {

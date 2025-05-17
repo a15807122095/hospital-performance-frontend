@@ -71,9 +71,9 @@ declare namespace API {
     /** 查询修改结束时间 */
     modified_time_before?: string;
     /** 页码 */
-    page?: string;
+    page?: number;
     /** 每页数量 */
-    page_size?: string;
+    page_size?: number;
   };
 
   type getBaseConfigManuallyRecordIdParams = {
@@ -110,21 +110,6 @@ declare namespace API {
     page?: number;
     /** 每页数量 */
     page_size?: number;
-  };
-
-  type postBaseConfigChargeCategoryParams = {
-    /** 关键字搜索：科室代码，科室名称，拼音码，院区标识 */
-    keyword?: string;
-    /** 枚举：doctor(医师)，technician(技师)，nurse(护理)，admin(行政) */
-    category_designation?: string;
-    /** 查询修改起始时间 */
-    modified_time_after?: string;
-    /** 查询修改结束时间 */
-    modified_time_before?: string;
-    /** 页码 */
-    page?: string;
-    /** 每页数量 */
-    page_size?: string;
   };
 
   type putBaseConfigAccountDictionaryIdParams = {

@@ -9,41 +9,20 @@ export async function getBaseConfigChargeCategory(
   options?: { [key: string]: any },
 ) {
   return request<{
-    total: number;
-    page_size: number;
-    page: number;
-    result: {
-      id: number;
-      department_code: string;
-      department_name: string;
-      pingying_code: string;
-      campus: string;
-      category_designation: string;
-      superior_department: string;
-    }[];
+    success: boolean;
     message: string;
     data: {
       total: number;
       page_size: number;
       page: number;
       result: {
-        staff_code: number;
-        staff_name: string;
-        department_code: string;
-        department_name: string;
-        group_code: string;
-        group_name: string;
-        post: string;
-        staff_nature: string;
-        attendance_days: number;
-        coefficient: string;
-        bonus_category: string;
-        position: string;
-        job_title: string;
-        work_number: string;
+        id: number;
+        charge_code: string;
+        charge_name: string;
+        pingying_code: string;
+        customize: string;
         modified_by: { id: number; user_name: string };
         modified_time: string;
-        reason?: string;
       }[];
     };
   }>('/base_config/charge_category/', {
@@ -57,15 +36,13 @@ export async function getBaseConfigChargeCategory(
 
 /** 新增收费类别 新增人员信息 POST /base_config/charge_category/ */
 export async function postBaseConfigChargeCategory(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.postBaseConfigChargeCategoryParams,
   body: {
     /** 类别代码 */
     charge_code?: string;
     /** 类别名称 */
     charge_name?: string;
     /** 拼音码 */
-    pingying_code?: number;
+    pingying_code?: string;
     /** 自定义类型 */
     customize?: string;
   },
@@ -104,9 +81,6 @@ export async function postBaseConfigChargeCategory(
     }[];
   }>('/base_config/charge_category/', {
     method: 'POST',
-    params: {
-      ...params,
-    },
     data: formData,
     requestType: 'form',
     ...(options || {}),
@@ -158,7 +132,7 @@ export async function putBaseConfigChargeCategoryId(
     /** 类别名称 */
     charge_name?: string;
     /** 拼音码 */
-    pingying_code?: number;
+    pingying_code?: string;
     /** 自定义类型 */
     customize?: string;
   },
