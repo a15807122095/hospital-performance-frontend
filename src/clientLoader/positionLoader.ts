@@ -16,7 +16,7 @@ export default async function positionLoader() {
       text: item.position_designation,
     });
     options.push({
-      value: item.id,
+      value: String(item.id),
       label: item.position_designation,
     });
   });

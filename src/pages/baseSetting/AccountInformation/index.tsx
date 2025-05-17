@@ -1,18 +1,17 @@
+import positionLoader from '@/clientLoader/positionLoader';
 import {
   deleteBaseConfigAccountInformationId,
   getBaseConfigAccountInformation,
   postBaseConfigAccountInformation,
   putBaseConfigAccountInformationId,
 } from '@/services/openapi/renyuanxinxibiao';
-import { getBaseConfigPositionSystem } from '@/services/openapi/zhixibiao';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ProSchemaValueEnumMap,
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import { useRequest, useSearchParams } from '@umijs/max';
+import { useClientLoaderData, useSearchParams } from '@umijs/max';
 import { Button, FormInstance, message } from 'antd';
 import { get, omit } from 'lodash';
 import { useEffect, useRef } from 'react';
@@ -27,17 +26,10 @@ type TableProps = ProTableProps<
 >;
 
 const AccountInformation = () => {
+  const { data } = useClientLoaderData();
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<FormInstance>();
   const [searchParams] = useSearchParams();
-  const { data: positionSystemList } = useRequest(getBaseConfigPositionSystem, {
-    defaultParams: [
-      {
-        page: 1,
-        page_size: 500,
-      },
-    ],
-  });
 
   const tabRequest: TableProps['request'] = async (params) => {
     const { data, ...other } = await getBaseConfigAccountInformation({
@@ -154,16 +146,7 @@ const AccountInformation = () => {
         popupMatchSelectWidth: false,
       },
       hideInSearch: true,
-      valueEnum: () => {
-        const result: ProSchemaValueEnumMap = new Map();
-        const data = get(positionSystemList, 'result', []);
-        data.forEach((item) => {
-          result.set(item.id, {
-            text: item.position_designation,
-          });
-        });
-        return result;
-      },
+      valueEnum: get(data, 'valueEnum', new Map()),
     },
     {
       title: '职称',
@@ -331,3 +314,5 @@ const AccountInformation = () => {
 };
 
 export default AccountInformation;
+
+export const clientLoader = positionLoader;

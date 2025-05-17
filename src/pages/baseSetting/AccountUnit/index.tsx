@@ -174,7 +174,7 @@ const AccountUnit = () => {
     const position = searchParams.get('position');
     formRef.current?.setFieldsValue({
       keyword: searchParams.get('keyword'),
-      position: position ? Number(position) : undefined,
+      position,
       modified_time: [
         searchParams.get('modified_time_after'),
         searchParams.get('modified_time_before'),
