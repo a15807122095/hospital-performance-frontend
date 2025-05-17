@@ -22,7 +22,7 @@ export async function getBaseConfigAccountDictionary(
         position: string;
         modified_by: { id: number; user_name: string };
         modified_time: string;
-        superior_department: string;
+        superior_department?: string;
         id: number;
       }[];
     };
@@ -40,17 +40,17 @@ export async function getBaseConfigAccountDictionary(
 export async function postBaseConfigAccountDictionary(
   body: {
     /** 科室代码 */
-    department_code?: string;
+    department_code: string;
     /** 科室名称 */
-    department_name?: string;
+    department_name: string;
     /** 拼音码 */
-    pingying_code?: string;
+    pingying_code: string;
     /** 外键关联职系表(传主键id) */
-    position?: string;
+    position: string;
     /** 上级科室 */
     superior_department?: string;
     /** 院区标识 */
-    campus?: string;
+    campus: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -99,17 +99,17 @@ export async function putBaseConfigAccountDictionaryId(
   params: API.putBaseConfigAccountDictionaryIdParams,
   body: {
     /** 科室代码 */
-    department_code?: string;
+    department_code: string;
     /** 科室名称 */
-    department_name?: string;
+    department_name: string;
     /** 拼音码 */
-    pingying_code?: string;
+    pingying_code: string;
     /** 外键关联职系表(传主键id) */
-    position?: string;
+    position: string;
     /** 上级科室 */
     superior_department?: string;
     /** 院区标识 */
-    campus?: string;
+    campus: string;
   },
   options?: { [key: string]: any },
 ) {

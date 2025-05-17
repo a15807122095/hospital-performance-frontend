@@ -25,6 +25,8 @@ type TableProps = ProTableProps<
   API.getBaseConfigAccountDictionaryParams
 >;
 
+type PostData = Parameters<typeof postBaseConfigAccountDictionary>[0];
+
 const AccountUnit = () => {
   const { data } = useClientLoaderData();
 
@@ -54,21 +56,33 @@ const AccountUnit = () => {
       title: '科室代码',
       dataIndex: 'department_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '科室名称',
       dataIndex: 'department_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '拼音',
       dataIndex: 'pingying_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '院区',
       dataIndex: 'campus',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '类别',
@@ -78,6 +92,9 @@ const AccountUnit = () => {
         options: get(data, 'options', []),
       },
       valueEnum: get(data, 'valueEnum', new Map()),
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '上级科室',
@@ -147,15 +164,15 @@ const AccountUnit = () => {
     ),
     onSave: async (rowKey, data, originRow, newLineConfig) => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
+      const postData = omit(data, omitKeys) as PostData;
       if (newLineConfig) {
-        const postData = omit(data, omitKeys);
         await postBaseConfigAccountDictionary(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
         await putBaseConfigAccountDictionaryId(
           { id: rowKey as string },
-          omit(data, omitKeys),
+          postData,
         );
         message.success({ content: '更新成功!' });
       }

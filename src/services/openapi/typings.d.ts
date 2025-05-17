@@ -19,6 +19,10 @@ declare namespace API {
     id: string;
   };
 
+  type deleteBaseConfigRbrvsProjectIdParams = {
+    id: string;
+  };
+
   type getBaseConfigAccountDictionaryIdParams = {
     id: string;
   };
@@ -112,6 +116,23 @@ declare namespace API {
     page_size?: number;
   };
 
+  type getBaseConfigRbrvsProjectIdParams = {
+    id: string;
+  };
+
+  type getBaseConfigRbrvsProjectParams = {
+    /** 关键字搜索 */
+    keyword?: string;
+    /** 查询修改起始时间 */
+    modified_time_after?: string;
+    /** 查询修改结束时间 */
+    modified_time_before?: string;
+    /** 页码 */
+    page?: number;
+    /** 每页数量 */
+    page_size?: number;
+  };
+
   type putBaseConfigAccountDictionaryIdParams = {
     id: string;
   };
@@ -129,6 +150,10 @@ declare namespace API {
   };
 
   type putBaseConfigPositionSystemIdParams = {
+    id: string;
+  };
+
+  type putBaseConfigRbrvsProjectIdParams = {
     id: string;
   };
 }

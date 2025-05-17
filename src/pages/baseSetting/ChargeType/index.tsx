@@ -23,6 +23,8 @@ type TableProps = ProTableProps<
   API.getBaseConfigChargeCategoryParams
 >;
 
+type PostData = Parameters<typeof postBaseConfigChargeCategory>[0];
+
 const ChargeType = () => {
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<FormInstance>();
@@ -65,21 +67,33 @@ const ChargeType = () => {
       title: '类别名称',
       dataIndex: 'charge_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '类别代码',
       dataIndex: 'charge_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '拼音码',
       dataIndex: 'pingying_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '自定义类型',
       dataIndex: 'customize',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '更新人',
@@ -131,16 +145,13 @@ const ChargeType = () => {
     ),
     onSave: async (rowKey, data, originRow, newLineConfig) => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
+      const postData = omit(data, omitKeys) as PostData;
       if (newLineConfig) {
-        const postData = omit(data, omitKeys);
         await postBaseConfigChargeCategory(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
-        await putBaseConfigChargeCategoryId(
-          { id: rowKey as string },
-          omit(data, omitKeys),
-        );
+        await putBaseConfigChargeCategoryId({ id: rowKey as string }, postData);
         message.success({ content: '更新成功!' });
       }
     },

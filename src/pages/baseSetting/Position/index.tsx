@@ -24,6 +24,8 @@ type TableProps = ProTableProps<
   API.getBaseConfigPositionSystemParams
 >;
 
+type PostData = Parameters<typeof postBaseConfigPositionSystem>[0];
+
 const Position = () => {
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<FormInstance>();
@@ -68,16 +70,25 @@ const Position = () => {
       dataIndex: 'position_code',
       valueType: 'digit',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '职系名称',
       dataIndex: 'position_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '职系标示',
       dataIndex: 'position_designation',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '更新人',
@@ -129,16 +140,13 @@ const Position = () => {
     ),
     onSave: async (rowKey, data, originRow, newLineConfig) => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
+      const postData = omit(data, omitKeys) as PostData;
       if (newLineConfig) {
-        const postData = omit(data, omitKeys);
         await postBaseConfigPositionSystem(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
-        await putBaseConfigPositionSystemId(
-          { id: rowKey as string },
-          omit(data, omitKeys),
-        );
+        await putBaseConfigPositionSystemId({ id: rowKey as string }, postData);
         message.success({ content: '更新成功!' });
       }
     },

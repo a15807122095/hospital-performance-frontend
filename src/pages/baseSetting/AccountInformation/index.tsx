@@ -25,6 +25,8 @@ type TableProps = ProTableProps<
   API.getBaseConfigAccountInformationParams
 >;
 
+type PostData = Parameters<typeof postBaseConfigAccountInformation>[0];
+
 const AccountInformation = () => {
   const { data } = useClientLoaderData();
   const actionRef = useRef<ActionType>(null);
@@ -86,58 +88,91 @@ const AccountInformation = () => {
       valueType: 'digit',
       dataIndex: 'staff_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '员工姓名',
       dataIndex: 'staff_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '科室代码',
       dataIndex: 'department_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '科室名称',
       dataIndex: 'department_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '组别号',
       dataIndex: 'group_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '组别名称',
       dataIndex: 'group_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '岗位',
       dataIndex: 'post',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '员工性质',
       dataIndex: 'staff_nature',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '出勤天数',
       dataIndex: 'attendance_days',
       valueType: 'digit',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '系数',
       dataIndex: 'coefficient',
       valueType: 'digit',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '奖金类别',
       dataIndex: 'bonus_category',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '职务',
@@ -147,16 +182,25 @@ const AccountInformation = () => {
       },
       hideInSearch: true,
       valueEnum: get(data, 'valueEnum', new Map()),
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '职称',
       dataIndex: 'job_title',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '工作证编报',
       dataIndex: 'work_number',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '原因',
@@ -214,15 +258,15 @@ const AccountInformation = () => {
     ),
     onSave: async (rowKey, data, originRow, newLineConfig) => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
+      const postData = omit(data, omitKeys) as PostData;
       if (newLineConfig) {
-        const postData = omit(data, omitKeys);
         await postBaseConfigAccountInformation(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
         await putBaseConfigAccountInformationId(
           { id: rowKey as string },
-          omit(data, omitKeys),
+          postData,
         );
         message.success({ content: '更新成功!' });
       }

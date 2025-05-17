@@ -5,6 +5,7 @@
 import * as dengluxiangguan from './dengluxiangguan';
 import * as hesuandanyuanzidianbiao from './hesuandanyuanzidianbiao';
 import * as luruxinxibiao from './luruxinxibiao';
+import * as rbrvSxiangmuzidianweihu from './rbrvSxiangmuzidianweihu';
 import * as renyuanxinxibiao from './renyuanxinxibiao';
 import * as shoufeileibiebiao from './shoufeileibiebiao';
 import * as zhixibiao from './zhixibiao';
@@ -15,4 +16,5 @@ export default {
   renyuanxinxibiao,
   luruxinxibiao,
   shoufeileibiebiao,
+  rbrvSxiangmuzidianweihu,
 };

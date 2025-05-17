@@ -60,11 +60,11 @@ export async function getBaseConfigPositionSystem(
 export async function postBaseConfigPositionSystem(
   body: {
     /** 职系代码 */
-    position_code?: number;
+    position_code: number;
     /** 职系名称 */
-    position_name?: string;
+    position_name: string;
     /** 职系描述 */
-    position_designation?: string;
+    position_designation: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -113,11 +113,11 @@ export async function putBaseConfigPositionSystemId(
   params: API.putBaseConfigPositionSystemIdParams,
   body: {
     /** 职系代码 */
-    position_code?: number;
+    position_code: number;
     /** 职系名称 */
-    position_name?: string;
+    position_name: string;
     /** 职系描述 */
-    position_designation?: string;
+    position_designation: string;
   },
   options?: { [key: string]: any },
 ) {

@@ -39,15 +39,15 @@ export async function getBaseConfigManuallyRecord(
 export async function postBaseConfigManuallyRecord(
   body: {
     /** 参数名称 */
-    parameter_name?: string;
+    parameter_name: string;
     /** 拼音码 */
-    pingying_code?: string;
+    pingying_code: string;
     /** 参数值 */
-    parameter?: number;
+    parameter: number;
     /** 调整值 */
-    adjuest?: number;
+    adjuest: number;
     /** 录入方式， 固定枚举： {'manual': 手动， 'auto': 自动} */
-    record_method?: string;
+    record_method: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -131,15 +131,15 @@ export async function putBaseConfigManuallyRecordId(
   params: API.putBaseConfigManuallyRecordIdParams,
   body: {
     /** 参数名称 */
-    parameter_name?: string;
+    parameter_name: string;
     /** 拼音码 */
-    pingying_code?: string;
+    pingying_code: string;
     /** 参数值 */
-    parameter?: number;
+    parameter: number;
     /** 调整值 */
-    adjuest?: number;
+    adjuest: number;
     /** 录入方式， 固定枚举： {'manual': 手动， 'auto': 自动} */
-    record_method?: string;
+    record_method: string;
   },
   options?: { [key: string]: any },
 ) {

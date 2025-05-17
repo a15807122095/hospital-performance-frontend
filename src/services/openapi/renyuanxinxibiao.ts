@@ -49,35 +49,35 @@ export async function getBaseConfigAccountInformation(
 export async function postBaseConfigAccountInformation(
   body: {
     /** 员工编号 */
-    staff_code?: number;
+    staff_code: number;
     /** 员工名称 */
-    staff_name?: string;
+    staff_name: string;
     /** 科室代码 */
-    department_code?: string;
+    department_code: string;
     /** 科室名称 */
-    department_name?: string;
+    department_name: string;
     /** 组别号 */
-    group_code?: string;
+    group_code: string;
     /** 组别名称 */
-    group_name?: string;
+    group_name: string;
     /** 岗位 */
-    post?: string;
+    post: string;
     /** 员工性质 */
-    staff_nature?: string;
+    staff_nature: string;
     /** 出勤天数 */
-    attendance_days?: number;
+    attendance_days: number;
     /** 原因 */
     reason?: string;
     /** 系数 */
-    coefficient?: number;
+    coefficient: number;
     /** 奖金类别 */
-    bonus_category?: string;
+    bonus_category: string;
     /** 职系(从职系列表接口获取) */
-    position?: number;
+    position: number;
     /** 职务 */
-    job_title?: string;
+    job_title: string;
     /** 工作证编号 */
-    work_number?: string;
+    work_number: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -161,35 +161,35 @@ export async function putBaseConfigAccountInformationId(
   params: API.putBaseConfigAccountInformationIdParams,
   body: {
     /** 员工编号 */
-    staff_code?: number;
+    staff_code: number;
     /** 员工名称 */
-    staff_name?: string;
+    staff_name: string;
     /** 科室代码 */
-    department_code?: string;
+    department_code: string;
     /** 科室名称 */
-    department_name?: string;
+    department_name: string;
     /** 组别号 */
-    group_code?: string;
+    group_code: string;
     /** 组别名称 */
-    group_name?: string;
+    group_name: string;
     /** 岗位 */
-    post?: string;
+    post: string;
     /** 员工性质 */
-    staff_nature?: string;
+    staff_nature: string;
     /** 出勤天数 */
-    attendance_days?: number;
+    attendance_days: number;
     /** 原因 */
     reason?: string;
     /** 系数 */
-    coefficient?: number;
+    coefficient: number;
     /** 奖金类别 */
-    bonus_category?: string;
+    bonus_category: string;
     /** 职系(从职系列表接口获取) */
-    position?: number;
+    position: number;
     /** 职务 */
-    job_title?: string;
+    job_title: string;
     /** 工作证编号 */
-    work_number?: string;
+    work_number: string;
   },
   options?: { [key: string]: any },
 ) {

@@ -24,6 +24,8 @@ type TableProps = ProTableProps<
   API.getBaseConfigManuallyRecordParams
 >;
 
+type PostData = Parameters<typeof postBaseConfigManuallyRecord>[0];
+
 const ManualInput = () => {
   const actionRef = useRef<ActionType>(null);
   const formRef = useRef<FormInstance>();
@@ -82,23 +84,35 @@ const ManualInput = () => {
       title: '参数名称',
       dataIndex: 'parameter_name',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '拼音码',
       dataIndex: 'pingying_code',
       hideInSearch: true,
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '参数',
       dataIndex: 'parameter',
       hideInSearch: true,
       valueType: 'digit',
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '调整',
       dataIndex: 'adjuest',
       hideInSearch: true,
       valueType: 'digit',
+      formItemProps: {
+        rules: [{ required: true }],
+      },
     },
     {
       title: '录入方式',
@@ -108,6 +122,9 @@ const ManualInput = () => {
       valueEnum: {
         manual: '人工',
         auto: '自动',
+      },
+      formItemProps: {
+        rules: [{ required: true }],
       },
     },
     {
@@ -160,16 +177,13 @@ const ManualInput = () => {
     ),
     onSave: async (rowKey, data, originRow, newLineConfig) => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
+      const postData = omit(data, omitKeys) as PostData;
       if (newLineConfig) {
-        const postData = omit(data, omitKeys);
         await postBaseConfigManuallyRecord(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
-        await putBaseConfigManuallyRecordId(
-          { id: rowKey as string },
-          omit(data, omitKeys),
-        );
+        await putBaseConfigManuallyRecordId({ id: rowKey as string }, postData);
         message.success({ content: '更新成功!' });
       }
     },

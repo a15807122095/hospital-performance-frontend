@@ -2,10 +2,10 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-/** 获取收费类别列表 获取职系表列表 GET /base_config/charge_category/ */
-export async function getBaseConfigChargeCategory(
+/** 获取项目字典维护列表 GET /base_config/rbrvs_project/ */
+export async function getBaseConfigRbrvsProject(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getBaseConfigChargeCategoryParams,
+  params: API.getBaseConfigRbrvsProjectParams,
   options?: { [key: string]: any },
 ) {
   return request<{
@@ -25,7 +25,7 @@ export async function getBaseConfigChargeCategory(
         modified_time: string;
       }[];
     };
-  }>('/base_config/charge_category/', {
+  }>('/base_config/rbrvs_project/', {
     method: 'GET',
     params: {
       ...params,
@@ -34,17 +34,43 @@ export async function getBaseConfigChargeCategory(
   });
 }
 
-/** 新增收费类别 新增人员信息 POST /base_config/charge_category/ */
-export async function postBaseConfigChargeCategory(
+/** 新增项目字典维护 POST /base_config/rbrvs_project/ */
+export async function postBaseConfigRbrvsProject(
   body: {
-    /** 类别代码 */
-    charge_code: string;
-    /** 类别名称 */
+    /** 院区标识 */
+    campus: string;
+    /** 收费编码 */
+    fee_code: string;
+    /** 执行科室 */
+    implement_department?: string;
+    /** 收费名称 */
     charge_name: string;
+    /** 规格 */
+    specification: string;
+    /** 单价 */
+    unit_price: string;
+    /** 新单价 */
+    new_unit_price: string;
+    /** 收费大类 */
+    charge_category: string;
     /** 拼音码 */
     pingying_code: string;
-    /** 自定义类型 */
-    customize: string;
+    /** 判读点数 */
+    pd_point: string;
+    /** 执行点数 */
+    zx_point: string;
+    /** 护理点数 */
+    hl_point: string;
+    /** 技师点数 */
+    js_point: string;
+    /** 门诊规则 */
+    outpatient_ragulations: string;
+    /** 住院规则 */
+    hospitalization_rules: string;
+    /** 卫生码 */
+    health_code: string;
+    /** 来源 */
+    source: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -79,7 +105,7 @@ export async function postBaseConfigChargeCategory(
       category_designation: string;
       superior_department: string;
     }[];
-  }>('/base_config/charge_category/', {
+  }>('/base_config/rbrvs_project/', {
     method: 'POST',
     data: formData,
     requestType: 'form',
@@ -87,10 +113,10 @@ export async function postBaseConfigChargeCategory(
   });
 }
 
-/** 获取收费类别详情 获取人员信息某条详情（预留） GET /base_config/charge_category/${param0}/ */
-export async function getBaseConfigChargeCategoryId(
+/** 获取项目字典维护详情 获取人员信息某条详情（预留） GET /base_config/rbrvs_project/${param0}/ */
+export async function getBaseConfigRbrvsProjectId(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getBaseConfigChargeCategoryIdParams,
+  params: API.getBaseConfigRbrvsProjectIdParams,
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
@@ -115,26 +141,52 @@ export async function getBaseConfigChargeCategoryId(
       modified_by: { id: number; user_name: string };
       modified_time: string;
     };
-  }>(`/base_config/charge_category/${param0}/`, {
+  }>(`/base_config/rbrvs_project/${param0}/`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),
   });
 }
 
-/** 修改某条收费类别数据 PUT /base_config/charge_category/${param0}/ */
-export async function putBaseConfigChargeCategoryId(
+/** 修改某条项目字典维护数据 PUT /base_config/rbrvs_project/${param0}/ */
+export async function putBaseConfigRbrvsProjectId(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.putBaseConfigChargeCategoryIdParams,
+  params: API.putBaseConfigRbrvsProjectIdParams,
   body: {
-    /** 类别代码 */
-    charge_code: string;
-    /** 类别名称 */
+    /** 院区标识 */
+    campus: string;
+    /** 收费编码 */
+    fee_code: string;
+    /** 执行科室 */
+    implement_department?: string;
+    /** 收费名称 */
     charge_name: string;
+    /** 规格 */
+    specification: string;
+    /** 单价 */
+    unit_price: string;
+    /** 新单价 */
+    new_unit_price: string;
+    /** 收费大类 */
+    charge_category: string;
     /** 拼音码 */
     pingying_code: string;
-    /** 自定义类型 */
-    customize: string;
+    /** 判读点数 */
+    pd_point: string;
+    /** 执行点数 */
+    zx_point: string;
+    /** 护理点数 */
+    hl_point: string;
+    /** 技师点数 */
+    js_point: string;
+    /** 门诊规则 */
+    outpatient_ragulations: string;
+    /** 住院规则 */
+    hospitalization_rules: string;
+    /** 卫生码 */
+    health_code: string;
+    /** 来源 */
+    source: string;
   },
   options?: { [key: string]: any },
 ) {
@@ -157,31 +209,25 @@ export async function putBaseConfigChargeCategoryId(
     }
   });
 
-  return request<Record<string, any>>(
-    `/base_config/charge_category/${param0}/`,
-    {
-      method: 'PUT',
-      params: { ...queryParams },
-      data: formData,
-      requestType: 'form',
-      ...(options || {}),
-    },
-  );
+  return request<Record<string, any>>(`/base_config/rbrvs_project/${param0}/`, {
+    method: 'PUT',
+    params: { ...queryParams },
+    data: formData,
+    requestType: 'form',
+    ...(options || {}),
+  });
 }
 
-/** 删除某条收费类别 DELETE /base_config/charge_category/${param0}/ */
-export async function deleteBaseConfigChargeCategoryId(
+/** 删除某条项目字典维护 DELETE /base_config/rbrvs_project/${param0}/ */
+export async function deleteBaseConfigRbrvsProjectId(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteBaseConfigChargeCategoryIdParams,
+  params: API.deleteBaseConfigRbrvsProjectIdParams,
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<Record<string, any>>(
-    `/base_config/charge_category/${param0}/`,
-    {
-      method: 'DELETE',
-      params: { ...queryParams },
-      ...(options || {}),
-    },
-  );
+  return request<Record<string, any>>(`/base_config/rbrvs_project/${param0}/`, {
+    method: 'DELETE',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
 }
