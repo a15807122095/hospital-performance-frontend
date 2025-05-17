@@ -1,32 +1,44 @@
 import {
-  deleteBaseConfigPositionSystemId,
-  getBaseConfigPositionSystem,
-  postBaseConfigPositionSystem,
-  putBaseConfigPositionSystemId,
-} from '@/services/openapi/zhixibiao';
+  deleteBaseConfigAccountInformationId,
+  getBaseConfigAccountInformation,
+  postBaseConfigAccountInformation,
+  putBaseConfigAccountInformationId,
+} from '@/services/openapi/renyuanxinxibiao';
+import { getBaseConfigPositionSystem } from '@/services/openapi/zhixibiao';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
+  ProSchemaValueEnumMap,
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
+import { useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
 import { get, omit } from 'lodash';
 import { useRef } from 'react';
 
 type DateType = Awaited<
-  ReturnType<typeof getBaseConfigPositionSystem>
+  ReturnType<typeof getBaseConfigAccountInformation>
 >['data']['result'][number];
 
 type TableProps = ProTableProps<
   DateType,
-  API.getBaseConfigPositionSystemParams
+  API.getBaseConfigAccountInformationParams
 >;
 
-const Position = () => {
+const AccountInformation = () => {
   const actionRef = useRef<ActionType>(null);
+  const { data: positionSystemList } = useRequest(getBaseConfigPositionSystem, {
+    defaultParams: [
+      {
+        page: 1,
+        page_size: 500,
+      },
+    ],
+  });
+
   const tabRequest: TableProps['request'] = async (params) => {
-    const { data, ...other } = await getBaseConfigPositionSystem({
+    const { data, ...other } = await getBaseConfigAccountInformation({
       page: get(params, 'current', 1),
       page_size: get(params, 'pageSize', 10),
       ...omit(params, ['current', 'pageSize']),
@@ -46,6 +58,24 @@ const Position = () => {
       editable: false,
     },
     {
+      title: '出勤天数',
+      dataIndex: 'attendance_days',
+      valueType: 'digitRange',
+      editable: false,
+      hideInTable: true,
+      fieldProps: {
+        allowClear: true,
+      },
+      search: {
+        transform: (value) => {
+          return {
+            attendance_days_min: value[0],
+            attendance_days_max: value[1],
+          };
+        },
+      },
+    },
+    {
       title: '更新时间',
       dataIndex: 'modified_time',
       editable: false,
@@ -61,26 +91,101 @@ const Position = () => {
       },
     },
     {
-      title: '职系代码',
-      dataIndex: 'position_code',
+      title: '员工编码',
+      valueType: 'digit',
+      dataIndex: 'staff_code',
+      hideInSearch: true,
+    },
+    {
+      title: '员工姓名',
+      dataIndex: 'staff_name',
+      hideInSearch: true,
+    },
+    {
+      title: '科室代码',
+      dataIndex: 'department_code',
+      hideInSearch: true,
+    },
+    {
+      title: '科室名称',
+      dataIndex: 'department_name',
+      hideInSearch: true,
+    },
+    {
+      title: '组别号',
+      dataIndex: 'group_code',
+      hideInSearch: true,
+    },
+    {
+      title: '组别名称',
+      dataIndex: 'group_name',
+      hideInSearch: true,
+    },
+    {
+      title: '岗位',
+      dataIndex: 'post',
+      hideInSearch: true,
+    },
+    {
+      title: '员工性质',
+      dataIndex: 'staff_nature',
+      hideInSearch: true,
+    },
+    {
+      title: '出勤天数',
+      dataIndex: 'attendance_days',
       valueType: 'digit',
       hideInSearch: true,
     },
     {
-      title: '职系名称',
-      dataIndex: 'position_name',
+      title: '系数',
+      dataIndex: 'coefficient',
+      valueType: 'digit',
       hideInSearch: true,
     },
     {
-      title: '职系标示',
-      dataIndex: 'position_designation',
+      title: '奖金类别',
+      dataIndex: 'bonus_category',
+      hideInSearch: true,
+    },
+    {
+      title: '职务',
+      dataIndex: 'position',
+      fieldProps: {
+        popupMatchSelectWidth: false,
+      },
+      hideInSearch: true,
+      valueEnum: () => {
+        const result: ProSchemaValueEnumMap = new Map();
+        const data = get(positionSystemList, 'result', []);
+        data.forEach((item) => {
+          result.set(item.id, {
+            text: item.position_designation,
+          });
+        });
+        return result;
+      },
+    },
+    {
+      title: '职称',
+      dataIndex: 'job_title',
+      hideInSearch: true,
+    },
+    {
+      title: '工作证编报',
+      dataIndex: 'work_number',
+      hideInSearch: true,
+    },
+    {
+      title: '原因',
+      dataIndex: 'reason',
       hideInSearch: true,
     },
     {
       title: '更新人',
       dataIndex: ['modified_by', 'user_name'],
-      hideInSearch: true,
       editable: false,
+      hideInSearch: true,
     },
     {
       title: '更新时间',
@@ -128,11 +233,11 @@ const Position = () => {
       const omitKeys = ['index', 'flag', 'id', 'modified_by', 'modified_time'];
       if (newLineConfig) {
         const postData = omit(data, omitKeys);
-        await postBaseConfigPositionSystem(postData);
+        await postBaseConfigAccountInformation(postData);
         message.success({ content: '添加成功!' });
         actionRef.current?.reload();
       } else {
-        await putBaseConfigPositionSystemId(
+        await putBaseConfigAccountInformationId(
           { id: rowKey as string },
           omit(data, omitKeys),
         );
@@ -144,7 +249,7 @@ const Position = () => {
       if (flag === 'create') {
         return;
       }
-      await deleteBaseConfigPositionSystemId({ id: rowKey as string });
+      await deleteBaseConfigAccountInformationId({ id: rowKey as string });
       message.success({ content: '删除成功!' });
     },
   };
@@ -152,8 +257,10 @@ const Position = () => {
     <ProTable
       actionRef={actionRef}
       request={tabRequest}
-      options={{
-        setting: false,
+      columnsState={{
+        defaultValue: {
+          option: { fixed: 'right', disable: true },
+        },
       }}
       columns={columns}
       rowKey="id"
@@ -184,4 +291,4 @@ const Position = () => {
   );
 };
 
-export default Position;
+export default AccountInformation;

@@ -9,24 +9,14 @@ export async function getBaseConfigAccountInformation(
   options?: { [key: string]: any },
 ) {
   return request<{
-    total: number;
-    page_size: number;
-    page: number;
-    result: {
-      id: number;
-      department_code: string;
-      department_name: string;
-      pingying_code: string;
-      campus: string;
-      category_designation: string;
-      superior_department: string;
-    }[];
+    success: boolean;
     message: string;
     data: {
       total: number;
       page_size: number;
       page: number;
       result: {
+        id: number;
         staff_code: number;
         staff_name: string;
         department_code: string;
@@ -36,14 +26,14 @@ export async function getBaseConfigAccountInformation(
         post: string;
         staff_nature: string;
         attendance_days: number;
-        coefficient: string;
+        reason: string;
+        coefficient: number;
         bonus_category: string;
-        position: string;
+        position: number;
         job_title: string;
         work_number: string;
         modified_by: { id: number; user_name: string };
         modified_time: string;
-        reason?: string;
       }[];
     };
   }>('/base_config/account_information/', {
@@ -57,11 +47,9 @@ export async function getBaseConfigAccountInformation(
 
 /** 新增人员信息 新增人员信息 POST /base_config/account_information/ */
 export async function postBaseConfigAccountInformation(
-  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.postBaseConfigAccountInformationParams,
   body: {
     /** 员工编号 */
-    staff_code?: string;
+    staff_code?: number;
     /** 员工名称 */
     staff_name?: string;
     /** 科室代码 */
@@ -126,9 +114,6 @@ export async function postBaseConfigAccountInformation(
     }[];
   }>('/base_config/account_information/', {
     method: 'POST',
-    params: {
-      ...params,
-    },
     data: formData,
     requestType: 'form',
     ...(options || {}),
@@ -176,7 +161,7 @@ export async function putBaseConfigAccountInformationId(
   params: API.putBaseConfigAccountInformationIdParams,
   body: {
     /** 员工编号 */
-    staff_code?: string;
+    staff_code?: number;
     /** 员工名称 */
     staff_name?: string;
     /** 科室代码 */

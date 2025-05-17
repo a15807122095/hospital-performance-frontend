@@ -44,14 +44,19 @@ const routes: IRouteType = [
     icon: 'SettingOutlined',
     routes: [
       {
-        name: '核算单元字典表',
+        name: '核算单元字典',
         path: '/base-setting/account-unit',
         component: '@/pages/baseSetting/AccountUnit',
       },
       {
-        name: '职系字典表',
+        name: '职系字典',
         path: '/base-setting/position',
         component: '@/pages/baseSetting/Position',
+      },
+      {
+        name: '人员信息',
+        path: '/base-setting/account-information',
+        component: '@/pages/baseSetting/AccountInformation',
       },
     ],
   },
