@@ -195,9 +195,10 @@ const AccountInformation = () => {
     },
     {
       title: '操作',
-      dataIndex: 'operate',
       valueType: 'option',
+      key: 'option',
       align: 'center',
+      disable: true,
       render: (text, record, _, action) => (
         <Button
           variant="text"
